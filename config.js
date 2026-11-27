@@ -1,0 +1,99 @@
+// CONFIGURAÇÃO DO JOGO
+// Podes alterar as palavras, as pistas, os significados e as imagens nesta lista.
+//
+//  word    -> a palavra escondida na grelha (sem espaços, acentos ou hífenes)
+//  label   -> como a palavra aparece escrita no ecrã (com acentos)
+//  clue    -> a pista mostrada na lista
+//  meaning -> o significado mostrado quando a palavra é encontrada
+//  image   -> caminho da imagem mostrada quando a palavra é encontrada.
+//             Para usares uma fotografia, copia-a para a pasta "images" e
+//             muda o caminho (por exemplo: "images/simplex.jpg").
+const terms = [
+  {
+    word: "SIMPLEX",
+    label: "Simplex",
+    clue: "Tipo de comunicação em que os dados circulam num único sentido.",
+    meaning: "Modo de transmissão em que a informação circula sempre no mesmo sentido: um dispositivo só emite e o outro só recebe. É o caso da rádio e da televisão tradicionais, ou de um teclado ligado ao computador.",
+    image: "images/simplex.svg"
+  },
+  {
+    word: "ATENUACAO",
+    label: "Atenuação",
+    clue: "Perda de potência ou intensidade de um sinal durante a propagação.",
+    meaning: "Perda gradual de potência de um sinal à medida que percorre o meio de transmissão. Quanto maior a distância e pior o meio, maior a atenuação, por isso usam-se repetidores ou amplificadores. Mede-se em decibéis (dB).",
+    image: "images/atenuacao.svg"
+  },
+  {
+    word: "DISTORCAO",
+    label: "Distorção",
+    clue: "Alteração da forma original de um sinal.",
+    meaning: "Alteração da forma original de um sinal durante a transmissão, por exemplo porque o meio não responde da mesma maneira a todas as frequências. O recetor recebe uma onda diferente da que foi emitida, o que pode causar erros.",
+    image: "images/distorcao.svg"
+  },
+  {
+    word: "AMPLITUDE",
+    label: "Amplitude",
+    clue: "Valor máximo da intensidade de uma onda em relação à sua posição de equilíbrio.",
+    meaning: "Valor máximo que uma onda atinge em relação ao seu ponto de equilíbrio. Num sinal elétrico corresponde à tensão e determina a intensidade do sinal; numa onda sonora, por exemplo, define o volume.",
+    image: "images/amplitude.svg"
+  },
+  {
+    word: "FREQUENCIA",
+    label: "Frequência",
+    clue: "Número de ciclos de uma onda por unidade de tempo.",
+    meaning: "Número de ciclos completos que uma onda realiza por segundo, medido em hertz (Hz). É o inverso do período: quanto mais ciclos por segundo, mais alta é a frequência.",
+    image: "images/frequencia.svg"
+  },
+  {
+    word: "FASE",
+    label: "Fase",
+    clue: "Parâmetro que indica a posição de uma onda relativamente a uma referência.",
+    meaning: "Posição de uma onda num determinado instante em relação a uma referência, normalmente expressa em graus ou radianos. Duas ondas com a mesma frequência podem estar em fase ou desfasadas, e essa diferença altera a forma como se somam.",
+    image: "images/fase.svg"
+  },
+  {
+    word: "MULTIPLEXACAO",
+    label: "Multiplexação",
+    clue: "Técnica que permite combinar vários sinais para os transmitir através de um mesmo canal.",
+    meaning: "Técnica que combina vários sinais para os enviar em simultâneo por um único canal de transmissão. No destino, um desmultiplexador volta a separá-los. Poupa cabos e aproveita melhor a largura de banda; FDM e TDM são as duas formas clássicas.",
+    image: "images/multiplexacao.svg"
+  },
+  {
+    word: "FDM",
+    label: "FDM",
+    clue: "Multiplexação por divisão de frequência.",
+    meaning: "Frequency Division Multiplexing. Cada sinal ocupa uma faixa de frequências própria dentro da largura de banda total do canal, e todos são transmitidos ao mesmo tempo. É usada, por exemplo, na rádio FM e na televisão por cabo.",
+    image: "images/fdm.svg"
+  },
+  {
+    word: "TDM",
+    label: "TDM",
+    clue: "Multiplexação por divisão de tempo.",
+    meaning: "Time Division Multiplexing. Os sinais partilham o canal à vez: cada um usa toda a largura de banda durante um intervalo de tempo (slot), e o ciclo repete-se continuamente. É muito usada nas redes telefónicas digitais.",
+    image: "images/tdm.svg"
+  },
+  {
+    word: "SINAL",
+    label: "Sinal",
+    clue: "Representação física utilizada para transportar informação.",
+    meaning: "Representação física, elétrica, ótica ou eletromagnética, usada para transportar informação de um ponto para outro. Pode ser analógico, com variação contínua, ou digital, com valores discretos.",
+    image: "images/sinal.svg"
+  },
+  {
+    word: "INTERFERENCIA",
+    label: "Interferência",
+    clue: "Perturbação causada pela influência indesejada de outros sinais.",
+    meaning: "Perturbação causada por outros sinais ou fontes de ruído que se sobrepõem ao sinal útil e o degradam. Pode vir de cabos vizinhos, motores ou equipamentos sem fios. Cabos entrançados e blindagem ajudam a reduzi-la.",
+    image: "images/interferencia.svg"
+  },
+  {
+    word: "DUPLEX",
+    label: "Duplex",
+    clue: "Tipo de transmissão que permite comunicação nos dois sentidos.",
+    meaning: "Modo de transmissão que permite comunicar nos dois sentidos. No half-duplex, um de cada vez, como num walkie-talkie; no full-duplex, ao mesmo tempo, como numa chamada telefónica.",
+    image: "images/duplex.svg"
+  }
+];
+
+const GRID_SIZE = 15;
+const INITIAL_CREDITS = 3;

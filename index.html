@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sopa de Letras | Redes e Comunicação de Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="config.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="top-title">
+      <p class="course">UFCD 6127, Redes – Comunicação de dados</p>
+      <h1>Sopa de Letras</h1>
+      <p class="subtitle">Características físicas e tipos de transmissão de dados</p>
+    </div>
+    <div class="status" aria-label="Estado do jogo">
+      <div class="stat">
+        <span class="stat-value" id="counter">0 / 12</span>
+        <span class="stat-label">palavras</span>
+      </div>
+      <div class="stat stat-credits">
+        <span class="stat-value" id="credits">3</span>
+        <span class="stat-label">créditos</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="board" aria-labelledby="board-title">
+      <h2 id="board-title" class="visually-hidden">Grelha</h2>
+      <div class="cable" id="progress" role="progressbar" aria-label="Palavras encontradas" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0"></div>
+      <div id="grid" aria-label="Grelha da sopa de letras"></div>
+      <p id="message" aria-live="polite">Boa sorte!</p>
+      <div class="actions">
+        <button id="restart" type="button">Novo jogo</button>
+        <button class="secondary" id="clear" type="button">Limpar seleção</button>
+      </div>
+      <p class="help">Arrasta o rato (ou o dedo) da primeira à última letra. As palavras podem estar na horizontal, na vertical ou na diagonal, nos dois sentidos.</p>
+    </section>
+
+    <aside class="clues-panel" aria-labelledby="clues-title">
+      <h2 id="clues-title">Pistas</h2>
+      <p class="hint-instructions">Clica em <strong>Dica</strong> para marcar a roxo, na grelha, as duas primeiras letras da palavra. Cada dica custa 1 crédito e cada palavra encontrada devolve 1.</p>
+      <div class="clues" id="clues"></div>
+    </aside>
+  </main>
+
+  <footer>
+    Trabalho de Redes – Comunicação de Dados · Nome: ____________________
+  </footer>
+
+  <dialog id="reveal" aria-labelledby="reveal-word">
+    <article class="reveal-card">
+      <figure class="reveal-media">
+        <img id="reveal-img" alt="">
+      </figure>
+      <div class="reveal-body">
+        <p class="reveal-status" id="reveal-status">Palavra encontrada</p>
+        <h3 id="reveal-word"></h3>
+        <p class="reveal-meaning" id="reveal-meaning"></p>
+        <div class="reveal-actions">
+          <button id="reveal-close" type="button">Continuar</button>
+        </div>
+      </div>
+    </article>
+  </dialog>
+</body>
+</html>

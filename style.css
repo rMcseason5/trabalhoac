@@ -1,0 +1,333 @@
+/* ---------- Tokens ---------- */
+:root {
+  --paper: #E7ECF2;
+  --paper-line: #D4DDE7;
+  --surface: #FBFCFE;
+  --ink: #101B2D;
+  --ink-soft: #46566D;
+  --line: #C7D1DD;
+  --cell: #EDF1F6;
+  --signal: #E8730C;
+  --signal-soft: #FFE2C7;
+  --hint: #7B3FE4;
+  --hint-soft: #EBE0FD;
+  --focus: #2A5FC4;
+
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-grid: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Cabeçalho ---------- */
+.top {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 34px 24px 22px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.course { margin: 0 0 6px; color: var(--ink-soft); font-size: .92rem; font-weight: 500; }
+
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6.5vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -.025em;
+}
+
+.subtitle { margin: 10px 0 0; color: var(--ink-soft); font-size: 1.02rem; max-width: 46ch; }
+
+.status { display: flex; gap: 10px; flex: 0 0 auto; }
+
+.stat {
+  min-width: 96px;
+  padding: 10px 16px 9px;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label { font-size: .8rem; color: var(--ink-soft); }
+.stat-credits { background: var(--signal); }
+.stat-credits .stat-label { color: var(--ink); }
+
+.stat-credits.pulse { animation: bump .35s ease-out; }
+@keyframes bump { 40% { transform: translateY(-4px); } }
+
+/* ---------- Estrutura ---------- */
+main {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 6px 24px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, .85fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.board, .clues-panel {
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  border-radius: 18px;
+  padding: 22px;
+}
+
+h2 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; letter-spacing: -.01em; }
+
+/* ---------- Progresso (cabo com 12 fios) ---------- */
+.cable {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin: 0 auto 16px;
+  max-width: 650px;
+}
+
+.cable .wire {
+  height: 10px;
+  border-radius: 99px;
+  background: var(--cell);
+  border: 1px solid var(--line);
+  transition: background-color .25s, border-color .25s;
+}
+
+.cable .wire.on { background: var(--c); border-color: var(--c); }
+
+/* ---------- Grelha ---------- */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  gap: 3px;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: var(--cell);
+  color: var(--ink);
+  font-family: var(--font-grid);
+  font-size: clamp(.62rem, 1.6vw, 1rem);
+  font-weight: 600;
+  cursor: crosshair;
+}
+
+.cell.hint { background: var(--hint); color: #fff; }
+.cell.selected { background: var(--signal-soft); color: var(--ink); box-shadow: inset 0 0 0 2px var(--signal); }
+.cell.found { background: var(--c); color: #fff; box-shadow: none; }
+
+#message {
+  min-height: 1.6em;
+  margin: 16px 0 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
+
+.help {
+  margin: 16px auto 0;
+  max-width: 62ch;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .9rem;
+}
+
+/* ---------- Botões ---------- */
+button {
+  font-family: var(--font-body);
+  font-size: .95rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ink);
+  background: var(--signal);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform .1s;
+}
+
+button:hover:not(:disabled) { transform: translateY(-1px); }
+button:active:not(:disabled) { transform: translateY(1px); }
+button.secondary { background: var(--surface); }
+
+/* ---------- Pistas ---------- */
+.hint-instructions { margin: 0 0 14px; color: var(--ink-soft); font-size: .9rem; }
+
+.clues { display: flex; flex-direction: column; }
+
+.clue {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+}
+
+.clue-dot {
+  width: 14px; height: 14px;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: transparent;
+}
+
+.clue-content { min-width: 0; }
+.clue p { margin: 0; font-size: .93rem; }
+
+.clue-word {
+  display: none;
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.hint-result { display: none; margin-top: 8px; font-size: .85rem; color: var(--ink-soft); }
+.hint-result.show { display: flex; align-items: center; gap: 8px; }
+
+.hint-chip {
+  font-family: var(--font-grid);
+  font-weight: 600;
+  letter-spacing: .12em;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--hint);
+  color: #fff;
+}
+
+.hint-button, .view-button {
+  padding: 6px 12px;
+  font-size: .82rem;
+  border-radius: 8px;
+  background: var(--hint-soft);
+  border-color: var(--hint);
+  color: #3A1B80;
+}
+
+.hint-button:disabled { opacity: .5; cursor: default; }
+.view-button { background: var(--surface); border-color: var(--ink); color: var(--ink); }
+
+.clue.done .clue-dot { background: var(--c); border-color: var(--c); }
+.clue.done .clue-word { display: block; }
+.clue.done p { color: var(--ink-soft); font-size: .85rem; }
+.clue.done .hint-result { display: none; }
+
+/* ---------- Diálogo: significado + imagem ---------- */
+dialog {
+  width: min(600px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  padding: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  overflow: auto;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+dialog::backdrop { background: rgba(16, 27, 45, .6); }
+dialog[open] { animation: pop .22s ease-out; }
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+
+.reveal-media {
+  margin: 0;
+  background: #EEF3F8;
+  border-bottom: 8px solid var(--c, var(--signal));
+}
+
+.reveal-media img { display: block; width: 100%; aspect-ratio: 400 / 260; object-fit: cover; }
+.reveal-media.no-image { display: none; }
+
+.reveal-body { padding: 22px 26px 26px; }
+.reveal-status { margin: 0 0 4px; color: var(--ink-soft); font-size: .88rem; font-weight: 500; }
+
+h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+
+.reveal-meaning { margin: 0; font-size: 1.02rem; max-width: 60ch; }
+.reveal-actions { margin-top: 20px; display: flex; justify-content: flex-end; }
+
+footer {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .85rem;
+  padding: 0 20px 30px;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 880px) {
+  main { grid-template-columns: 1fr; }
+  .top { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .top { padding: 24px 14px 16px; }
+  main { padding-inline: 12px; }
+  .board, .clues-panel { padding: 14px; border-radius: 14px; }
+  #grid { gap: 2px; }
+  .cell { border-radius: 4px; font-size: clamp(.6rem, 3.3vw, .85rem); }
+  .stat { min-width: 84px; }
+  .reveal-body { padding: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
