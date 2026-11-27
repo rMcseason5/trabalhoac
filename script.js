@@ -20,6 +20,7 @@ const WORD_COLORS = [
   "#C2560A", "#2B7A3E", "#2A5FC4", "#8A5232", "#0E7C7B",
   "#C23A52", "#7A6A00", "#4F5F78", "#11789F", "#5A7A00"
 ];
+let terms = [];
 const colorOf = (word) => WORD_COLORS[terms.findIndex(t => t.word === word) % WORD_COLORS.length];
 const termOf = (word) => terms.find(t => t.word === word);
 
@@ -441,4 +442,25 @@ function startGame() {
   messageElement.textContent = `Boa sorte! Encontra as ${terms.length} palavras.`;
 }
 
-startGame();
+/* ---------- Carregar os dados (terms.json) ---------- */
+
+const normalizeWord = (w) => String(w).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z]/g, "").toUpperCase();
+
+async function loadTerms() {
+  try {
+    const response = await fetch(TERMS_URL, { cache: "no-cache" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const list = Array.isArray(data) ? data : data.terms;
+    if (!Array.isArray(list) || !list.length) throw new Error("terms.json não tem palavras");
+    terms = list
+      .map(t => ({ ...t, word: normalizeWord(t.word) }))
+      .filter(t => t.word.length > 0 && t.word.length <= SIZE);
+    startGame();
+  } catch (error) {
+    console.error(error);
+    messageElement.textContent = "Não foi possível carregar o ficheiro terms.json. Abre o site através de um servidor (por exemplo, com «python -m http.server») ou de um alojamento web, e não diretamente do ficheiro.";
+  }
+}
+
+loadTerms();
